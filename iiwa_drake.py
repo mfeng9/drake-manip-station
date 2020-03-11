@@ -437,7 +437,6 @@ class ManipulationStationSimulator:
     simulator.Initialize()
     # clone the init simulator context for reset
     self.simulator_init_context = self.simulator.get_mutable_context().Clone()
-    self.simulator.reset_context(self.simulator_init_context)
     self.plant_context = self.diagram.GetMutableSubsystemContext(
       self.plant, self.simulator.get_mutable_context())
 
@@ -1138,5 +1137,12 @@ def GetInterpolateOrientation(R_start:np.array, R_end:np.array):
 if __name__ == '__main__':
   sim = ManipulationStationSimulator(visualizer='drake')
   sim.init_simulator()
-  sim.sim_to_time(2.)
+  print('works fine before resetting the context')
+  sim.sim_duration(2.)
+  sim.incremental_move_in_world(increment=0.3, direction='y')
+  print('now reset the context')
+  sim.simulator.reset_context(sim.simulator_init_context)
+  print('works fine for simple AdvanceTo with no commands')
+  sim.sim_duration(2.0)
+  print('segmentation fault if arm is commanded to move again')
   sim.incremental_move_in_world(direction='y')
