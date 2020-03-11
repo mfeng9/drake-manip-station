@@ -1,6 +1,6 @@
 from pydrake.systems.framework import (BasicVector, LeafSystem, PortDataType,
     AbstractValue, LeafSystem, PublishEvent, TriggerType)
-from deepPHA.drakesim.manip_station_sim.robot_plans import *
+from robot_plans import *
 
 
 class IiwaPlanRunner(LeafSystem):
